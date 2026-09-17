@@ -1,0 +1,18 @@
+services:
+  # Câu 81: Khai báo Service backend
+  backend:
+    build: ./server # Trỏ tới thư mục chứa Dockerfile của backend
+    # Câu 83: Cấu hình Port cho Backend (Ánh xạ port 5000)
+    ports:
+      - "5000:5000"
+    # Câu 85: Cấu hình biến môi trường MONGODB_URI
+    env_file:
+      - ./server/.env
+
+  # Câu 82: Khai báo Service frontend
+  frontend:
+    build: ./client
+    ports:
+      - "3000:80" # Ánh xạ cổng 3000 máy ngoài vào cổng 80 của Nginx inside container
+    depends_on:
+      - backend

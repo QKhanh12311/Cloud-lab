@@ -1,76 +1,109 @@
 :root {
-  --background: #15161a;
-  --panel: #17181d;
-  --line: #46484f;
-  --text: #dedee2;
-  --muted: #a4a5ad;
+  --background: #0f1115;
+  --panel: #171a20;
+  --panel-strong: #1d2129;
+  --line: #2d333d;
+  --text: #edf2f7;
+  --muted: #b9c2ce;
+  --input: #10151d;
+  --accent: #e7ebf0;
+  --accent-dark: #11151a;
+  --error: #ff8a80;
 }
 
 #root {
   min-height: 100vh;
 }
 
+body {
+  background: var(--background);
+}
+
 .app-shell {
-  width: min(694px, calc(100% - 32px));
+  width: min(1000px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 34px 0 120px;
+  padding: 40px 0 120px;
 }
 
 h1 {
-  margin: 0 0 8px;
+  margin: 0 0 24px;
   color: var(--text);
-  font-size: 40px;
+  font-size: clamp(2.1rem, 3vw, 3rem);
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
 }
 
 .form-panel {
-  margin-bottom: 18px;
-  padding: 16px;
+  margin-bottom: 24px;
+  padding: 20px 18px 18px;
   border: 1px solid var(--line);
-  background: var(--panel);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(23, 26, 32, 0.96), rgba(18, 21, 27, 0.95));
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
 }
 
 h2 {
-  margin: 0 0 12px;
+  margin: 0 0 18px;
   color: var(--text);
-  font-size: 20px;
+  font-size: clamp(1.3rem, 2vw, 1.8rem);
+  font-weight: 700;
 }
 
 .student-form {
   display: grid;
-  grid-template-columns: 1fr 1.3fr 1.5fr auto;
-  gap: 8px;
+  grid-template-columns: 1fr 1.2fr 1.5fr auto;
+  gap: 10px;
 }
 
 input,
 button {
-  min-height: 34px;
+  min-height: 42px;
   border: 1px solid var(--line);
-  border-radius: 2px;
+  border-radius: 10px;
   font: inherit;
+  transition: all 0.2s ease;
 }
 
 input {
   min-width: 0;
-  padding: 0 9px;
+  padding: 0 12px;
   color: var(--text);
-  background: #101115;
+  background: var(--input);
+}
+
+input:focus {
+  outline: none;
+  border-color: #8aa0b6;
+  box-shadow: 0 0 0 3px rgba(138, 160, 182, 0.15);
 }
 
 button {
-  padding: 0 15px;
-  border-color: #858790;
-  background: #dedee2;
-  color: #15161a;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  background: linear-gradient(180deg, #f5f7fa, #dfe5ec);
+  color: var(--accent-dark);
   cursor: pointer;
   font-weight: 700;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(255, 255, 255, 0.08);
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .student-panel {
   overflow: hidden;
   border: 1px solid var(--line);
-  background: var(--panel);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(23, 26, 32, 0.96), rgba(18, 21, 27, 0.95));
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
 }
 
 table {
@@ -78,15 +111,14 @@ table {
   border-collapse: collapse;
   color: var(--muted);
   font-size: 14px;
-  text-align: center;
+  text-align: left;
 }
 
 th,
 td {
-  height: 31px;
-  padding: 0 12px;
-  border-right: 1px solid var(--line);
+  padding: 12px 16px;
   border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--line);
 }
 
 th:last-child,
@@ -99,9 +131,12 @@ tbody tr:last-child td {
 }
 
 th {
-  color: #b9bac0;
+  color: #dfe5ee;
   font-size: 12px;
   font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .id-cell {
@@ -110,23 +145,20 @@ th {
 
 .state-message {
   margin: 0;
-  padding: 32px 16px;
+  padding: 30px 16px;
   color: var(--muted);
   text-align: center;
+  font-size: 0.98rem;
 }
 
 .error-message {
-  color: #ef8f84;
+  color: var(--error);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 720px) {
   .app-shell {
     width: calc(100% - 24px);
     padding-top: 28px;
-  }
-
-  h1 {
-    font-size: 30px;
   }
 
   .student-form {
@@ -135,7 +167,7 @@ th {
 
   th,
 td {
-    padding: 0 8px;
+    padding: 10px 12px;
     font-size: 12px;
   }
 }

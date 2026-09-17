@@ -1,5 +1,23 @@
 import { useState, useEffect } from 'react';
 
+const API_BASE = import.meta.env.VITE_API_URL || '';
+
+async function readJsonResponse(response) {
+  const text = await response.text();
+
+  if (!text) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error(
+      'Backend chưa chạy hoặc không trả về JSON. Kiểm tra server Express ở cổng 5000.'
+    );
+  }
+}
+
 function App() {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,12 +30,13 @@ function App() {
     setError('');
 
     try {
-      const response = await fetch('/api/students');
+      const response = await fetch(`${API_BASE}/api/students`);
       if (!response.ok) {
-        throw new Error('Không thể tải danh sách sinh viên.');
+        const data = await readJsonResponse(response);
+        throw new Error(data?.message || 'Không thể tải danh sách sinh viên.');
       }
 
-      const data = await response.json();
+      const data = await readJsonResponse(response);
       setStudents(Array.isArray(data) ? data : []);
     } catch (err) {
       setError(err.message);
@@ -40,14 +59,18 @@ function App() {
     setError('');
 
     try {
-      const response = await fetch('/api/students', {
+      const response = await fetch(`${API_BASE}/api/students`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-      if (!response.ok) throw new Error('Không thể thêm sinh viên.');
 
-      const student = await response.json();
+      if (!response.ok) {
+        const data = await readJsonResponse(response);
+        throw new Error(data?.message || 'Không thể thêm sinh viên.');
+      }
+
+      const student = await readJsonResponse(response);
       setStudents((currentStudents) => [...currentStudents, student]);
       setFormData({ studentId: '', name: '', email: '' });
     } catch (err) {
