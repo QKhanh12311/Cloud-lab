@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  backend:
+    image: quockhanh13/mern-backend:1.0
+    container_name: mern-backend-hub
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGODB_URI=mongodb+srv://qk1377606_db_user:1234@cluster0.trab8kb.mongodb.net/student_db?appName=Cluster0
+    restart: always
+
+  frontend:
+    image: quockhanh13/mern-frontend:1.0
+    container_name: mern-frontend-hub
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: always
